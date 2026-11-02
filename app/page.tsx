@@ -4,166 +4,240 @@ import { useState } from "react";
 
 type Team = {
   name: string;
-  w: number;
-  l: number;
-  rd: number;
-  pts: number;
+  w: number | string;
+  l: number | string;
+  rd: number | string;
+  pts: number | string;
 };
 
 type Match = {
-  match: string;
   time: string;
   team1: string;
   team2: string;
-  status: "UPCOMING" | "DEFAULT";
+  status?: string;
 };
 
 const groupA: Team[] = [
-  {
-    name: "KADILIMAN ESPORTS",
-    w: 3,
-    l: 0,
-    rd: 22,
-    pts: 9,
-  },
-  {
-    name: "PROJECT ZERO",
-    w: 3,
-    l: 0,
-    rd: 17,
-    pts: 9,
-  },
-  {
-    name: "CODE UNKNOWN",
-    w: 2,
-    l: 1,
-    rd: 9,
-    pts: 6,
-  },
-  {
-    name: "INVICTUS INTERNATIONAL",
-    w: 2,
-    l: 2,
-    rd: -1,
-    pts: 6,
-  },
-  {
-    name: "LIVESTRONG HEARTS",
-    w: 2,
-    l: 2,
-    rd: -2,
-    pts: 6,
-  },
-  {
-    name: "AMBUSH ESPORTS",
-    w: 0,
-    l: 3,
-    rd: -20,
-    pts: 0,
-  },
-  {
-    name: "LIVESTRONG ROOKS",
-    w: 0,
-    l: 4,
-    rd: -24,
-    pts: 0,
-  },
+  { name: "KADILIMAN ESPORTS", w: 3, l: 0, rd: "+22", pts: 9 },
+  { name: "PROJECT ZERO", w: 3, l: 0, rd: "+17", pts: 9 },
+  { name: "CODE UNKNOWN", w: 2, l: 1, rd: "+9", pts: 6 },
+  { name: "INVICTUS INTERNATIONAL", w: 2, l: 2, rd: "-1", pts: 6 },
+  { name: "LIVESTRONG HEARTS", w: 2, l: 2, rd: "-2", pts: 6 },
+  { name: "AMBUSH ESPORTS", w: 0, l: 3, rd: "-20", pts: 0 },
+  { name: "LIVESTRONG ROOKS", w: 0, l: 4, rd: "-24", pts: 0 },
 ];
 
 const groupB: Team[] = [
-  {
-    name: "VANGUARD FAMILIA",
-    w: 3,
-    l: 0,
-    rd: 15,
-    pts: 9,
-  },
-  {
-    name: "LIVESTRONG KINGS",
-    w: 3,
-    l: 1,
-    rd: 1,
-    pts: 9,
-  },
-  {
-    name: "PH VALORIS",
-    w: 2,
-    l: 1,
-    rd: 3,
-    pts: 6,
-  },
-  {
-    name: "DON DESTROYER",
-    w: 2,
-    l: 1,
-    rd: -1,
-    pts: 6,
-  },
-  {
-    name: "NEMESIS ACADEMY",
-    w: 1,
-    l: 2,
-    rd: -5,
-    pts: 3,
-  },
+  { name: "VANGUARD FAMILIA", w: 3, l: 0, rd: "+15", pts: 9 },
+  { name: "LIVESTRONG KINGS", w: 3, l: 1, rd: "+1", pts: 9 },
+  { name: "PH VALORIS", w: 2, l: 1, rd: "+3", pts: 6 },
+  { name: "DON DESTROYER", w: 2, l: 1, rd: "-1", pts: 6 },
+  { name: "NEMESIS ACADEMY", w: 1, l: 2, rd: "-5", pts: 3 },
+  { name: "PH AETERIX", w: "-", l: "-", rd: "-", pts: "-" },
+  { name: "PH VENGEANCE", w: "-", l: "-", rd: "-", pts: "-" },
 ];
 
-const matches: Match[] = [
+const day5: Match[] = [
   {
-    match: "MATCH 1",
-    time: "7:00 - 7:30 PM",
+    time: "7:00 – 7:30 PM",
     team1: "CODE UNKNOWN",
     team2: "AMBUSH ESPORTS",
-    status: "UPCOMING",
   },
   {
-    match: "MATCH 2",
-    time: "7:40 - 8:10 PM",
+    time: "7:40 – 8:10 PM",
     team1: "LIVESTRONG HEARTS",
     team2: "INVICTUS INTERNATIONAL",
-    status: "UPCOMING",
   },
   {
-    match: "MATCH 3",
-    time: "8:20 - 8:50 PM",
+    time: "8:20 – 8:50 PM",
     team1: "PROJECT ZERO",
     team2: "KADILIMAN ESPORTS",
-    status: "UPCOMING",
   },
   {
-    match: "MATCH 4",
-    time: "9:00 - 9:30 PM",
+    time: "9:00 – 9:30 PM",
     team1: "PH VALORIS",
     team2: "DON DESTROYER",
-    status: "UPCOMING",
   },
   {
-    match: "MATCH 5",
     time: "DEFAULT WIN",
     team1: "LIVESTRONG KINGS",
     team2: "PH VENGEANCE",
-    status: "DEFAULT",
+    status: "LIVESTRONG KINGS DEFAULT WIN • PH VENGEANCE DISQUALIFIED",
   },
   {
-    match: "MATCH 6",
-    time: "9:40 - 10:20 PM",
+    time: "9:40 – 10:20 PM",
     team1: "NEMESIS ACADEMY",
     team2: "VANGUARD FAMILIA",
-    status: "UPCOMING",
   },
 ];
 
-const allTeams: Team[] = [...groupA, ...groupB];
+const day6: Match[] = [
+  {
+    time: "7:00 – 7:30 PM",
+    team1: "CODE UNKNOWN",
+    team2: "INVICTUS INTERNATIONAL",
+  },
+  {
+    time: "7:40 – 8:10 PM",
+    team1: "AMBUSH ESPORTS",
+    team2: "KADILIMAN ESPORTS",
+  },
+  {
+    time: "8:20 – 8:50 PM",
+    team1: "PROJECT ZERO",
+    team2: "LIVESTRONG ROOKS",
+  },
+  {
+    time: "DEFAULT WIN",
+    team1: "PH VALORIS",
+    team2: "PH VENGEANCE",
+    status: "PH VALORIS DEFAULT WIN • PH VENGEANCE DISQUALIFIED",
+  },
+  {
+    time: "9:00 – 9:30 PM",
+    team1: "DON DESTROYER",
+    team2: "VANGUARD FAMILIA",
+  },
+  {
+    time: "DEFAULT WIN",
+    team1: "NEMESIS ACADEMY",
+    team2: "PH AETERIX",
+    status: "NEMESIS ACADEMY DEFAULT WIN",
+  },
+];
 
-function formatRD(rd: number) {
-  if (rd > 0) return `+${rd}`;
-  return `${rd}`;
+const day7: Match[] = [
+  {
+    time: "7:00 – 7:30 PM",
+    team1: "CODE UNKNOWN",
+    team2: "KADILIMAN ESPORTS",
+  },
+  {
+    time: "7:40 – 8:10 PM",
+    team1: "AMBUSH ESPORTS",
+    team2: "LIVESTRONG ROOKS",
+  },
+  {
+    time: "8:20 – 8:50 PM",
+    team1: "LIVESTRONG HEARTS",
+    team2: "PROJECT ZERO",
+  },
+  {
+    time: "9:00 – 9:30 PM",
+    team1: "PH VALORIS",
+    team2: "DON DESTROYER",
+  },
+  {
+    time: "DEFAULT WIN",
+    team1: "DON DESTROYER",
+    team2: "PH AETERIX",
+    status: "DON DESTROYER DEFAULT WIN",
+  },
+  {
+    time: "10:20 – 10:50 PM",
+    team1: "LIVESTRONG KINGS",
+    team2: "NEMESIS ACADEMY",
+  },
+];
+
+const allTeams = [
+  ...groupA.map((team) => team.name),
+  ...groupB.map((team) => team.name),
+];
+
+function StandingsTable({
+  title,
+  teams,
+}: {
+  title: string;
+  teams: Team[];
+}) {
+  return (
+    <section className="standings-card">
+      <div className="section-title">
+        <span>{title}</span>
+        <small>2ND ROUND QUALIFIERS</small>
+      </div>
+
+      <div className="table-head">
+        <span>#</span>
+        <span>TEAM</span>
+        <span>W</span>
+        <span>L</span>
+        <span>RD</span>
+        <span>PTS</span>
+      </div>
+
+      {teams.map((team, index) => (
+        <div className="table-row" key={team.name}>
+          <span className="rank">{index + 1}</span>
+          <span className="team-name">{team.name}</span>
+          <span>{team.w}</span>
+          <span>{team.l}</span>
+          <span className="rd">{team.rd}</span>
+          <span className="pts">{team.pts}</span>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function MatchList({
+  title,
+  date,
+  matches,
+}: {
+  title: string;
+  date: string;
+  matches: Match[];
+}) {
+  return (
+    <section className="schedule-section">
+      <div className="schedule-heading">
+        <div>
+          <span className="day-label">{title}</span>
+          <h2>{date}</h2>
+        </div>
+        <span className="bo1">ROUND ROBIN • BEST OF 1</span>
+      </div>
+
+      <div className="matches">
+        {matches.map((match, index) => (
+          <div className="match-card" key={`${title}-${index}`}>
+            <div className="match-number">MATCH {index + 1}</div>
+
+            <div className="match-time">
+              {match.status ? match.status : match.time}
+            </div>
+
+            <div className="teams-match">
+              <div className="match-team left">
+                <span>{match.team1}</span>
+              </div>
+
+              <div className="vs">VS</div>
+
+              <div className="match-team right">
+                <span>{match.team2}</span>
+              </div>
+            </div>
+
+            {!match.status && (
+              <div className="match-footer">
+                BAKBAKAN SA PINAS S5 • ROUND 2
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 export default function Home() {
-  const [group, setGroup] = useState<"A" | "B">("A");
+  const [activeTab, setActiveTab] = useState<"A" | "B">("A");
 
-  const standings = group === "A" ? groupA : groupB;
+  const standings = activeTab === "A" ? groupA : groupB;
 
   return (
     <main className="bsp-site">
@@ -179,54 +253,36 @@ export default function Home() {
         body {
           margin: 0;
           background: #050505;
-          color: #fff;
+          color: #ffffff;
           font-family: Arial, Helvetica, sans-serif;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        button {
-          font-family: inherit;
         }
 
         .bsp-site {
           min-height: 100vh;
           background:
-            radial-gradient(
-              circle at 82% 18%,
-              rgba(230, 0, 0, 0.28),
-              transparent 30%
-            ),
-            radial-gradient(
-              circle at 20% 48%,
-              rgba(100, 0, 0, 0.16),
-              transparent 32%
-            ),
+            radial-gradient(circle at 80% 15%, rgba(160, 0, 0, .28), transparent 30%),
+            radial-gradient(circle at 20% 60%, rgba(100, 0, 0, .12), transparent 35%),
             #050505;
         }
 
-        /* NAVIGATION */
-
-        .navbar {
+        header {
           position: sticky;
           top: 0;
           z-index: 50;
+          background: rgba(5, 5, 5, .96);
           border-bottom: 1px solid #242424;
-          background: rgba(5, 5, 5, 0.96);
-          backdrop-filter: blur(12px);
+          backdrop-filter: blur(10px);
         }
 
-        .nav-inner {
-          max-width: 1250px;
+        .nav {
+          max-width: 1200px;
           margin: auto;
-          padding: 16px 24px;
+          min-height: 76px;
+          padding: 12px 24px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 25px;
+          gap: 20px;
         }
 
         .brand {
@@ -235,567 +291,578 @@ export default function Home() {
           gap: 12px;
         }
 
-        .brand-logo {
+        .brand-mark {
           width: 42px;
-          height: 52px;
-          background: #e50914;
+          height: 42px;
           display: grid;
           place-items: center;
-          font-size: 32px;
+          background: #e50914;
+          color: white;
           font-weight: 900;
+          font-size: 25px;
           font-style: italic;
-          box-shadow: 0 0 20px rgba(229, 9, 20, 0.25);
         }
 
         .brand-text {
           line-height: 1;
-          font-size: 16px;
-          font-weight: 900;
+        }
+
+        .brand-text strong {
+          display: block;
+          font-size: 14px;
+          letter-spacing: 1px;
         }
 
         .brand-text span {
           color: #e50914;
+          font-size: 10px;
+          letter-spacing: 2px;
         }
 
-        .nav-links {
+        nav {
           display: flex;
-          gap: 26px;
-          font-size: 13px;
+          gap: 25px;
+        }
+
+        nav a {
+          color: #aaa;
+          text-decoration: none;
+          font-size: 12px;
           font-weight: 800;
-          letter-spacing: 0.05em;
+          letter-spacing: 1px;
         }
 
-        .nav-links a:hover {
-          color: #ff1a1a;
+        nav a:hover {
+          color: #e50914;
         }
-
-        /* HERO */
 
         .hero {
-          min-height: 650px;
+          max-width: 1200px;
+          min-height: 500px;
+          margin: auto;
+          padding: 100px 24px 70px;
           display: flex;
           align-items: center;
-          border-bottom: 1px solid #1d1d1d;
-          background:
-            linear-gradient(
-              90deg,
-              rgba(0, 0, 0, 0.95),
-              rgba(0, 0, 0, 0.55),
-              rgba(80, 0, 0, 0.25)
-            ),
-            radial-gradient(
-              circle at 78% 40%,
-              #600000,
-              transparent 35%
-            );
+          position: relative;
+          overflow: hidden;
         }
 
-        .hero-inner {
-          width: 100%;
-          max-width: 1250px;
-          margin: auto;
-          padding: 80px 24px;
+        .hero:after {
+          content: "";
+          position: absolute;
+          width: 500px;
+          height: 500px;
+          right: -150px;
+          top: 20px;
+          background: radial-gradient(circle, rgba(190, 0, 0, .28), transparent 65%);
+          pointer-events: none;
+        }
+
+        .hero-content {
+          position: relative;
+          z-index: 2;
         }
 
         .eyebrow {
-          color: #ff3030;
-          font-size: 14px;
+          color: #e50914;
+          font-size: 13px;
           font-weight: 900;
-          letter-spacing: 0.3em;
-          margin-bottom: 18px;
+          letter-spacing: 6px;
+          margin-bottom: 15px;
         }
 
         .hero h1 {
           margin: 0;
-          font-size: clamp(64px, 10vw, 130px);
-          line-height: 0.85;
-          letter-spacing: -0.06em;
-          font-weight: 950;
+          font-size: clamp(70px, 12vw, 145px);
+          line-height: .82;
+          letter-spacing: -7px;
+          font-weight: 900;
         }
 
         .hero h2 {
           margin: 25px 0 10px;
           font-size: 22px;
-          max-width: 600px;
+          letter-spacing: 1px;
         }
 
         .hero p {
-          color: #aaa;
-          max-width: 600px;
+          color: #999;
+          max-width: 560px;
           line-height: 1.7;
         }
 
         .hero-buttons {
           display: flex;
-          gap: 14px;
-          margin-top: 30px;
-          flex-wrap: wrap;
+          gap: 12px;
+          margin-top: 28px;
         }
 
-        .button {
-          padding: 15px 24px;
-          border: 1px solid #444;
-          font-weight: 900;
-          font-size: 13px;
-          cursor: pointer;
+        .btn {
           display: inline-block;
+          padding: 15px 22px;
+          text-decoration: none;
+          font-weight: 900;
+          font-size: 12px;
+          letter-spacing: 1px;
+          border: 1px solid #333;
         }
 
-        .button-red {
+        .btn-red {
           background: #e50914;
+          color: white;
           border-color: #e50914;
         }
 
-        .button-red:hover {
-          background: #ff1c27;
-        }
-
-        .button-dark {
+        .btn-dark {
           background: #151515;
+          color: white;
         }
-
-        /* STATS */
 
         .stats {
-          max-width: 1250px;
+          border-top: 1px solid #222;
+          border-bottom: 1px solid #222;
+          background: #080808;
+        }
+
+        .stats-grid {
+          max-width: 1200px;
           margin: auto;
-          padding: 60px 24px;
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 1px;
-          background: #222;
         }
 
         .stat {
-          background: #080808;
-          padding: 30px;
+          padding: 35px 25px;
+          border-right: 1px solid #222;
         }
 
-        .stat-label {
+        .stat:last-child {
+          border-right: 0;
+        }
+
+        .stat small {
+          display: block;
+          color: #777;
+          font-size: 10px;
+          letter-spacing: 2px;
+          margin-bottom: 10px;
+        }
+
+        .stat strong {
+          font-size: 25px;
+        }
+
+        .stat.red strong {
           color: #e50914;
-          font-size: 12px;
-          font-weight: 900;
-          letter-spacing: 0.15em;
-        }
-
-        .stat-value {
-          font-size: 27px;
-          font-weight: 900;
-          margin-top: 10px;
-        }
-
-        /* SECTIONS */
-
-        section {
-          scroll-margin-top: 100px;
         }
 
         .section {
-          max-width: 1250px;
+          max-width: 1200px;
           margin: auto;
-          padding: 80px 24px;
+          padding: 75px 24px;
         }
 
-        .section-title {
-          display: flex;
-          align-items: end;
-          justify-content: space-between;
-          gap: 20px;
-          margin-bottom: 30px;
+        .section-header {
+          margin-bottom: 35px;
         }
 
-        .section-title h2 {
-          margin: 0;
-          font-size: 40px;
-          letter-spacing: -0.04em;
+        .section-header span {
+          color: #e50914;
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: 4px;
         }
 
-        .section-title p {
-          color: #888;
-          margin: 0;
+        .section-header h2 {
+          margin: 8px 0 0;
+          font-size: 45px;
+          letter-spacing: -2px;
         }
 
-        /* STANDINGS */
-
-        .group-buttons {
+        .tabs {
           display: flex;
           gap: 8px;
-          margin-bottom: 18px;
+          margin-bottom: 20px;
         }
 
-        .group-button {
-          padding: 12px 24px;
+        .tab {
           border: 1px solid #333;
-          background: #101010;
+          background: #111;
           color: #aaa;
+          padding: 12px 25px;
           font-weight: 900;
           cursor: pointer;
         }
 
-        .group-button.active {
+        .tab.active {
           background: #e50914;
           border-color: #e50914;
-          color: #fff;
+          color: white;
         }
 
-        .table-wrap {
-          overflow-x: auto;
-          border: 1px solid #242424;
+        .standings-card {
+          border: 1px solid #252525;
+          background: #0b0b0b;
+          overflow: hidden;
         }
 
-        table {
-          width: 100%;
-          min-width: 650px;
-          border-collapse: collapse;
+        .section-title {
+          padding: 25px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid #252525;
         }
 
-        th {
-          text-align: left;
+        .section-title span {
+          font-size: 22px;
+          font-weight: 900;
+        }
+
+        .section-title small {
+          color: #e50914;
+          font-size: 9px;
+          letter-spacing: 2px;
+        }
+
+        .table-head,
+        .table-row {
+          display: grid;
+          grid-template-columns: 45px minmax(180px, 1fr) 55px 55px 75px 65px;
+          align-items: center;
+          gap: 10px;
+          padding: 17px 20px;
+        }
+
+        .table-head {
+          color: #666;
+          font-size: 10px;
+          font-weight: 900;
+          letter-spacing: 1px;
+          background: #080808;
+        }
+
+        .table-row {
+          border-top: 1px solid #191919;
+          font-size: 13px;
+        }
+
+        .table-row:hover {
           background: #111;
-          color: #888;
-          font-size: 11px;
-          letter-spacing: 0.12em;
-          padding: 18px;
-        }
-
-        td {
-          padding: 20px 18px;
-          border-top: 1px solid #202020;
-          font-weight: 700;
-        }
-
-        tr:hover td {
-          background: #0d0d0d;
         }
 
         .rank {
-          color: #e50914;
-          font-size: 18px;
-          font-weight: 900;
+          color: #777;
         }
 
         .team-name {
-          font-weight: 900;
+          font-weight: 800;
         }
 
-        .positive {
-          color: #32d583;
+        .rd {
+          color: #ddd;
         }
 
-        .negative {
-          color: #ff4d4d;
-        }
-
-        /* MATCHES */
-
-        .day-banner {
-          border: 1px solid #5d0000;
-          background:
-            linear-gradient(
-              90deg,
-              rgba(229, 9, 20, 0.2),
-              rgba(10, 10, 10, 0.8)
-            );
-          padding: 24px;
-          margin-bottom: 20px;
-        }
-
-        .day-banner small {
-          color: #ff3030;
-          font-weight: 900;
-          letter-spacing: 0.15em;
-        }
-
-        .day-banner h3 {
-          margin: 8px 0 0;
-          font-size: 28px;
-        }
-
-        .match-grid {
-          display: grid;
-          gap: 12px;
-        }
-
-        .match-card {
-          display: grid;
-          grid-template-columns: 135px 1fr 70px 1fr;
-          align-items: center;
-          gap: 15px;
-          padding: 22px;
-          border: 1px solid #242424;
-          background: #0a0a0a;
-        }
-
-        .match-card:hover {
-          border-color: #5d0000;
-          background: #0e0e0e;
-        }
-
-        .match-time {
+        .pts {
           color: #e50914;
-          font-size: 13px;
-          font-weight: 900;
-          line-height: 1.5;
-        }
-
-        .match-number {
-          color: #fff;
-          font-size: 11px;
-          letter-spacing: 0.08em;
-        }
-
-        .match-team {
           font-weight: 900;
         }
 
-        .versus {
-          text-align: center;
-          color: #666;
-          font-size: 12px;
-          font-weight: 900;
+        .schedule-section {
+          margin-top: 70px;
         }
 
-        .default-label {
-          display: block;
-          color: #e50914;
-          font-size: 10px;
-          margin-top: 5px;
-          letter-spacing: 0.05em;
-        }
-
-        .dq-label {
-          display: block;
-          color: #777;
-          font-size: 10px;
-          margin-top: 5px;
-          text-decoration: line-through;
-        }
-
-        /* TEAMS */
-
-        .team-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 14px;
-        }
-
-        .team-card {
-          border: 1px solid #242424;
-          background: #0a0a0a;
-          padding: 25px;
-          min-height: 115px;
+        .schedule-heading {
           display: flex;
-          flex-direction: column;
+          align-items: flex-end;
           justify-content: space-between;
-        }
-
-        .team-card:hover {
-          border-color: #e50914;
-        }
-
-        .team-card small {
-          color: #777;
-        }
-
-        .group-tag {
-          color: #e50914;
-          font-size: 10px;
-          font-weight: 900;
-          letter-spacing: 0.12em;
-          margin-bottom: 10px;
-        }
-
-        /* ADMIN */
-
-        .admin-box {
-          border: 1px solid #5d0000;
-          background:
-            linear-gradient(
-              135deg,
-              #160000,
-              #080808
-            );
-          padding: 35px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+          margin-bottom: 25px;
           gap: 20px;
         }
 
-        .admin-box h3 {
-          margin: 0 0 8px;
-          font-size: 25px;
+        .day-label {
+          color: #e50914;
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: 4px;
         }
 
-        .admin-box p {
-          margin: 0;
-          color: #999;
+        .schedule-heading h2 {
+          margin: 6px 0 0;
+          font-size: 38px;
         }
 
-        /* FOOTER */
+        .bo1 {
+          color: #777;
+          font-size: 10px;
+          letter-spacing: 2px;
+          font-weight: 900;
+        }
+
+        .matches {
+          display: grid;
+          gap: 10px;
+        }
+
+        .match-card {
+          position: relative;
+          background: linear-gradient(90deg, #180505, #101010, #05102a);
+          border: 1px solid #292929;
+          overflow: hidden;
+        }
+
+        .match-number {
+          padding: 8px 15px 0;
+          color: #666;
+          font-size: 9px;
+          font-weight: 900;
+          letter-spacing: 2px;
+        }
+
+        .match-time {
+          text-align: center;
+          padding: 12px 10px 5px;
+          color: white;
+          font-size: 19px;
+          font-weight: 900;
+        }
+
+        .teams-match {
+          display: grid;
+          grid-template-columns: 1fr 70px 1fr;
+          align-items: center;
+          padding: 10px 25px 16px;
+        }
+
+        .match-team {
+          font-size: 16px;
+          font-weight: 900;
+        }
+
+        .match-team.left {
+          text-align: right;
+        }
+
+        .match-team.right {
+          text-align: left;
+        }
+
+        .vs {
+          text-align: center;
+          color: #e50914;
+          font-size: 11px;
+          font-weight: 900;
+        }
+
+        .match-footer {
+          text-align: center;
+          padding: 7px;
+          background: rgba(0,0,0,.45);
+          color: #777;
+          font-size: 8px;
+          letter-spacing: 2px;
+        }
+
+        .teams-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+
+        .team-card {
+          padding: 22px;
+          background: #0c0c0c;
+          border: 1px solid #222;
+          font-weight: 900;
+        }
+
+        .team-card span {
+          display: block;
+          margin-top: 8px;
+          color: #e50914;
+          font-size: 9px;
+          letter-spacing: 2px;
+        }
+
+        .playoffs {
+          padding: 70px 24px;
+          background: linear-gradient(180deg, #0b0b0b, #050505);
+          border-top: 1px solid #222;
+        }
+
+        .playoff-inner {
+          max-width: 1200px;
+          margin: auto;
+          text-align: center;
+        }
+
+        .playoff-inner h2 {
+          font-size: 55px;
+          margin: 10px 0;
+        }
+
+        .playoff-inner p {
+          color: #777;
+        }
+
+        .playoff-box {
+          margin-top: 30px;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+
+        .playoff-item {
+          padding: 30px;
+          border: 1px solid #292929;
+          background: #0d0d0d;
+        }
+
+        .playoff-item strong {
+          display: block;
+          color: #e50914;
+          font-size: 30px;
+        }
 
         footer {
           border-top: 1px solid #222;
-          padding: 40px 24px;
+          padding: 35px 24px;
+          color: #555;
           text-align: center;
-          color: #666;
-          font-size: 12px;
-          line-height: 1.8;
+          font-size: 10px;
+          letter-spacing: 2px;
         }
 
-        footer strong {
-          color: #e50914;
-        }
-
-        /* MOBILE */
-
-        @media (max-width: 800px) {
-          .nav-inner {
-            align-items: flex-start;
+        @media (max-width: 700px) {
+          .nav {
+            padding: 12px 15px;
           }
 
-          .nav-links {
+          nav {
+            gap: 10px;
+          }
+
+          nav a {
+            font-size: 9px;
+          }
+
+          .brand-text {
             display: none;
           }
 
           .hero {
-            min-height: 580px;
+            min-height: 450px;
+            padding: 80px 20px 60px;
           }
 
           .hero h1 {
             font-size: 72px;
-          }
-
-          .stats {
-            grid-template-columns: repeat(2, 1fr);
-            padding: 30px 0;
-          }
-
-          .stat {
-            padding: 22px 16px;
-          }
-
-          .stat-value {
-            font-size: 21px;
-          }
-
-          .section {
-            padding: 60px 16px;
-          }
-
-          .section-title {
-            display: block;
-          }
-
-          .section-title h2 {
-            font-size: 32px;
-            margin-bottom: 8px;
-          }
-
-          .match-card {
-            grid-template-columns: 1fr 45px 1fr;
-          }
-
-          .match-time {
-            grid-column: 1 / -1;
-          }
-
-          .team-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .admin-box {
-            display: block;
-          }
-
-          .admin-box .button {
-            margin-top: 20px;
-          }
-        }
-
-        @media (max-width: 500px) {
-          .brand-text {
-            font-size: 12px;
-          }
-
-          .brand-logo {
-            width: 35px;
-            height: 44px;
-            font-size: 26px;
-          }
-
-          .hero-inner {
-            padding: 70px 20px;
-          }
-
-          .hero h1 {
-            font-size: 58px;
+            letter-spacing: -4px;
           }
 
           .hero h2 {
             font-size: 18px;
           }
 
-          .stats {
-            grid-template-columns: 1fr 1fr;
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
           }
 
-          .stat-label {
-            font-size: 9px;
+          .stat {
+            padding: 25px 18px;
           }
 
-          .stat-value {
+          .section {
+            padding: 55px 15px;
+          }
+
+          .section-header h2 {
+            font-size: 35px;
+          }
+
+          .table-head,
+          .table-row {
+            grid-template-columns: 25px minmax(125px, 1fr) 35px 35px 50px 45px;
+            padding: 14px 10px;
+            font-size: 10px;
+          }
+
+          .section-title {
+            padding: 18px 12px;
+          }
+
+          .section-title span {
             font-size: 17px;
           }
 
-          .match-card {
-            padding: 18px 14px;
+          .section-title small {
+            font-size: 7px;
+          }
+
+          .schedule-heading {
+            display: block;
+          }
+
+          .schedule-heading h2 {
+            font-size: 30px;
+          }
+
+          .bo1 {
+            display: block;
+            margin-top: 10px;
+          }
+
+          .teams-match {
+            grid-template-columns: 1fr 35px 1fr;
+            padding: 10px 10px 15px;
           }
 
           .match-team {
-            font-size: 13px;
+            font-size: 11px;
+          }
+
+          .match-time {
+            font-size: 16px;
+          }
+
+          .teams-grid {
+            grid-template-columns: 1fr 1fr;
+          }
+
+          .playoff-box {
+            grid-template-columns: 1fr;
+          }
+
+          .playoff-inner h2 {
+            font-size: 42px;
           }
         }
       `}</style>
 
-      {/* NAVIGATION */}
-
-      <header className="navbar">
-        <div className="nav-inner">
-          <a href="#home" className="brand">
-            <div className="brand-logo">B</div>
-
+      <header>
+        <div className="nav">
+          <div className="brand">
+            <div className="brand-mark">B</div>
             <div className="brand-text">
-              BAKBAKAN SA PINAS
-              <br />
+              <strong>BAKBAKAN SA PINAS</strong>
               <span>ESPORTS TOURNAMENT</span>
             </div>
-          </a>
+          </div>
 
-          <nav className="nav-links">
+          <nav>
             <a href="#home">HOME</a>
             <a href="#matches">MATCHES</a>
             <a href="#standings">STANDINGS</a>
             <a href="#teams">TEAMS</a>
-            <a href="/admin">ADMIN</a>
           </nav>
         </div>
       </header>
 
-      {/* HERO */}
-
-      <section id="home" className="hero">
-        <div className="hero-inner">
-          <div className="eyebrow">
-            BAKBAKAN SA PINAS
-          </div>
-
+      <section className="hero" id="home">
+        <div className="hero-content">
+          <div className="eyebrow">BAKBAKAN SA PINAS</div>
           <h1>SEASON 5</h1>
-
-          <h2>
-            THE BATTLE FOR GLORY STARTS HERE.
-          </h2>
-
+          <h2>THE BATTLE FOR GLORY STARTS HERE.</h2>
           <p>
             Philippines Community Esports Tournament
             <br />
@@ -803,214 +870,46 @@ export default function Home() {
           </p>
 
           <div className="hero-buttons">
-            <a
-              href="#matches"
-              className="button button-red"
-            >
+            <a href="#matches" className="btn btn-red">
               VIEW MATCHES
             </a>
-
-            <a
-              href="#standings"
-              className="button button-dark"
-            >
+            <a href="#standings" className="btn btn-dark">
               VIEW STANDINGS
             </a>
           </div>
         </div>
       </section>
 
-      {/* TOURNAMENT STATS */}
-
-      <div className="stats">
-        <div className="stat">
-          <div className="stat-label">
-            FORMAT
+      <section className="stats">
+        <div className="stats-grid">
+          <div className="stat">
+            <small>FORMAT</small>
+            <strong>ROUND ROBIN<br />• BO1</strong>
           </div>
 
-          <div className="stat-value">
-            ROUND ROBIN
-            <br />
-            · BO1
-          </div>
-        </div>
-
-        <div className="stat">
-          <div className="stat-label">
-            ACTIVE TEAMS
+          <div className="stat">
+            <small>TEAMS</small>
+            <strong>14 TEAMS</strong>
           </div>
 
-          <div className="stat-value">
-            12 TEAMS
-          </div>
-        </div>
-
-        <div className="stat">
-          <div className="stat-label">
-            PLAYOFFS
+          <div className="stat">
+            <small>PLAYOFFS</small>
+            <strong>8 TEAMS</strong>
           </div>
 
-          <div className="stat-value">
-            8 TEAMS
+          <div className="stat red">
+            <small>STATUS</small>
+            <strong>ROUND 2</strong>
           </div>
-        </div>
-
-        <div className="stat">
-          <div className="stat-label">
-            STATUS
-          </div>
-
-          <div className="stat-value">
-            ROUND 2
-          </div>
-        </div>
-      </div>
-
-      {/* STANDINGS */}
-
-      <section
-        id="standings"
-        className="section"
-      >
-        <div className="section-title">
-          <div>
-            <h2>STANDINGS</h2>
-            <p>
-              2nd Round Qualifiers
-            </p>
-          </div>
-        </div>
-
-        <div className="group-buttons">
-          <button
-            className={`group-button ${
-              group === "A"
-                ? "active"
-                : ""
-            }`}
-            onClick={() =>
-              setGroup("A")
-            }
-          >
-            GROUP A
-          </button>
-
-          <button
-            className={`group-button ${
-              group === "B"
-                ? "active"
-                : ""
-            }`}
-            onClick={() =>
-              setGroup("B")
-            }
-          >
-            GROUP B
-          </button>
-        </div>
-
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>TEAM NAME</th>
-                <th>W</th>
-                <th>L</th>
-                <th>RD</th>
-                <th>PTS</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {standings.map(
-                (team, index) => (
-                  <tr key={team.name}>
-                    <td className="rank">
-                      {index + 1}
-                    </td>
-
-                    <td className="team-name">
-                      {team.name}
-                    </td>
-
-                    <td>
-                      {team.w}
-                    </td>
-
-                    <td>
-                      {team.l}
-                    </td>
-
-                    <td
-                      className={
-                        team.rd >= 0
-                          ? "positive"
-                          : "negative"
-                      }
-                    >
-                      {formatRD(
-                        team.rd
-                      )}
-                    </td>
-
-                    <td>
-                      {team.pts}
-                    </td>
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
         </div>
       </section>
 
-      {/* MATCH SCHEDULE */}
-
-      <section
-        id="matches"
-        className="section"
-      >
-        <div className="section-title">
-          <div>
-            <h2>MATCH SCHEDULE</h2>
-            <p>
-              Round 2 Qualifiers
-            </p>
-          </div>
+      <section className="section" id="standings">
+        <div className="section-header">
+          <span>LIVE TOURNAMENT STANDINGS</span>
+          <h2>GROUP STANDINGS</h2>
         </div>
 
-        <div className="day-banner">
-          <small>
-            BAKBAKAN SA PINAS S5
-          </small>
-
-          <h3>
-            DAY 5 — NOVEMBER 3, 2026
-          </h3>
-        </div>
-
-        <div className="match-grid">
-          {matches.map(
-            (match) => (
-              <div
-                className="match-card"
-                key={match.match}
-              >
-                <div className="match-time">
-                  <span className="match-number">
-                    {match.match}
-                  </span>
-
-                  <br />
-
-                  {match.time}
-                </div>
-
-                <div className="match-team">
-                  {match.team1}
-
-                  {match.status ===
-                    "DEFAULT" && (
-                    <span className="default-label">
-    
+        <div className="tabs">
+          <button
+            className={
