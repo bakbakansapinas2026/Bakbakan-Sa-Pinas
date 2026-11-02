@@ -10,6 +10,14 @@ type Team = {
   pts: number;
 };
 
+type Match = {
+  match: string;
+  time: string;
+  team1: string;
+  team2: string;
+  status: "UPCOMING" | "DEFAULT";
+};
+
 const groupA: Team[] = [
   {
     name: "KADILIMAN ESPORTS",
@@ -100,41 +108,56 @@ const groupB: Team[] = [
   },
 ];
 
-const matches = [
+const matches: Match[] = [
   {
-    time: "07:00 PM",
+    match: "MATCH 1",
+    time: "7:00 - 7:30 PM",
+    team1: "CODE UNKNOWN",
+    team2: "AMBUSH ESPORTS",
+    status: "UPCOMING",
+  },
+  {
+    match: "MATCH 2",
+    time: "7:40 - 8:10 PM",
+    team1: "LIVESTRONG HEARTS",
+    team2: "INVICTUS INTERNATIONAL",
+    status: "UPCOMING",
+  },
+  {
+    match: "MATCH 3",
+    time: "8:20 - 8:50 PM",
+    team1: "PROJECT ZERO",
+    team2: "KADILIMAN ESPORTS",
+    status: "UPCOMING",
+  },
+  {
+    match: "MATCH 4",
+    time: "9:00 - 9:30 PM",
     team1: "PH VALORIS",
-    team2: "NEMESIS ACADEMY",
-  },
-  {
-    time: "07:40 PM",
-    team1: "RAGE ESPORTS",
-    team2: "LIVESTRONG KINGS",
-  },
-  {
-    time: "08:20 PM",
-    team1: "KADILIMAN ESPORTS",
-    team2: "PH VALORIS",
-  },
-  {
-    time: "09:00 PM",
-    team1: "NEMESIS ACADEMY",
     team2: "DON DESTROYER",
+    status: "UPCOMING",
   },
   {
-    time: "09:40 PM",
+    match: "MATCH 5",
+    time: "DEFAULT WIN",
     team1: "LIVESTRONG KINGS",
+    team2: "PH VENGEANCE",
+    status: "DEFAULT",
+  },
+  {
+    match: "MATCH 6",
+    time: "9:40 - 10:20 PM",
+    team1: "NEMESIS ACADEMY",
     team2: "VANGUARD FAMILIA",
+    status: "UPCOMING",
   },
 ];
 
-const allTeams = [
-  ...groupA,
-  ...groupB,
-];
+const allTeams: Team[] = [...groupA, ...groupB];
 
 function formatRD(rd: number) {
-  return rd > 0 ? `+${rd}` : `${rd}`;
+  if (rd > 0) return `+${rd}`;
+  return `${rd}`;
 }
 
 export default function Home() {
@@ -156,7 +179,7 @@ export default function Home() {
         body {
           margin: 0;
           background: #050505;
-          color: #ffffff;
+          color: #fff;
           font-family: Arial, Helvetica, sans-serif;
         }
 
@@ -165,20 +188,34 @@ export default function Home() {
           text-decoration: none;
         }
 
+        button {
+          font-family: inherit;
+        }
+
         .bsp-site {
           min-height: 100vh;
           background:
-            radial-gradient(circle at 80% 18%, rgba(230, 0, 0, .28), transparent 30%),
-            radial-gradient(circle at 20% 45%, rgba(100, 0, 0, .16), transparent 30%),
+            radial-gradient(
+              circle at 82% 18%,
+              rgba(230, 0, 0, 0.28),
+              transparent 30%
+            ),
+            radial-gradient(
+              circle at 20% 48%,
+              rgba(100, 0, 0, 0.16),
+              transparent 32%
+            ),
             #050505;
         }
+
+        /* NAVIGATION */
 
         .navbar {
           position: sticky;
           top: 0;
           z-index: 50;
           border-bottom: 1px solid #242424;
-          background: rgba(5, 5, 5, .96);
+          background: rgba(5, 5, 5, 0.96);
           backdrop-filter: blur(12px);
         }
 
@@ -207,7 +244,7 @@ export default function Home() {
           font-size: 32px;
           font-weight: 900;
           font-style: italic;
-          box-shadow: 0 0 20px rgba(229, 9, 20, .25);
+          box-shadow: 0 0 20px rgba(229, 9, 20, 0.25);
         }
 
         .brand-text {
@@ -225,12 +262,14 @@ export default function Home() {
           gap: 26px;
           font-size: 13px;
           font-weight: 800;
-          letter-spacing: .05em;
+          letter-spacing: 0.05em;
         }
 
         .nav-links a:hover {
           color: #ff1a1a;
         }
+
+        /* HERO */
 
         .hero {
           min-height: 650px;
@@ -238,8 +277,17 @@ export default function Home() {
           align-items: center;
           border-bottom: 1px solid #1d1d1d;
           background:
-            linear-gradient(90deg, rgba(0,0,0,.95), rgba(0,0,0,.55), rgba(80,0,0,.25)),
-            radial-gradient(circle at 78% 40%, #600000, transparent 35%);
+            linear-gradient(
+              90deg,
+              rgba(0, 0, 0, 0.95),
+              rgba(0, 0, 0, 0.55),
+              rgba(80, 0, 0, 0.25)
+            ),
+            radial-gradient(
+              circle at 78% 40%,
+              #600000,
+              transparent 35%
+            );
         }
 
         .hero-inner {
@@ -253,15 +301,15 @@ export default function Home() {
           color: #ff3030;
           font-size: 14px;
           font-weight: 900;
-          letter-spacing: .3em;
+          letter-spacing: 0.3em;
           margin-bottom: 18px;
         }
 
         .hero h1 {
           margin: 0;
           font-size: clamp(64px, 10vw, 130px);
-          line-height: .85;
-          letter-spacing: -.06em;
+          line-height: 0.85;
+          letter-spacing: -0.06em;
           font-weight: 950;
         }
 
@@ -306,6 +354,8 @@ export default function Home() {
           background: #151515;
         }
 
+        /* STATS */
+
         .stats {
           max-width: 1250px;
           margin: auto;
@@ -325,7 +375,7 @@ export default function Home() {
           color: #e50914;
           font-size: 12px;
           font-weight: 900;
-          letter-spacing: .15em;
+          letter-spacing: 0.15em;
         }
 
         .stat-value {
@@ -333,6 +383,8 @@ export default function Home() {
           font-weight: 900;
           margin-top: 10px;
         }
+
+        /* SECTIONS */
 
         section {
           scroll-margin-top: 100px;
@@ -355,13 +407,15 @@ export default function Home() {
         .section-title h2 {
           margin: 0;
           font-size: 40px;
-          letter-spacing: -.04em;
+          letter-spacing: -0.04em;
         }
 
         .section-title p {
           color: #888;
           margin: 0;
         }
+
+        /* STANDINGS */
 
         .group-buttons {
           display: flex;
@@ -381,7 +435,7 @@ export default function Home() {
         .group-button.active {
           background: #e50914;
           border-color: #e50914;
-          color: white;
+          color: #fff;
         }
 
         .table-wrap {
@@ -400,7 +454,7 @@ export default function Home() {
           background: #111;
           color: #888;
           font-size: 11px;
-          letter-spacing: .12em;
+          letter-spacing: 0.12em;
           padding: 18px;
         }
 
@@ -432,6 +486,31 @@ export default function Home() {
           color: #ff4d4d;
         }
 
+        /* MATCHES */
+
+        .day-banner {
+          border: 1px solid #5d0000;
+          background:
+            linear-gradient(
+              90deg,
+              rgba(229, 9, 20, 0.2),
+              rgba(10, 10, 10, 0.8)
+            );
+          padding: 24px;
+          margin-bottom: 20px;
+        }
+
+        .day-banner small {
+          color: #ff3030;
+          font-weight: 900;
+          letter-spacing: 0.15em;
+        }
+
+        .day-banner h3 {
+          margin: 8px 0 0;
+          font-size: 28px;
+        }
+
         .match-grid {
           display: grid;
           gap: 12px;
@@ -439,7 +518,7 @@ export default function Home() {
 
         .match-card {
           display: grid;
-          grid-template-columns: 110px 1fr 70px 1fr;
+          grid-template-columns: 135px 1fr 70px 1fr;
           align-items: center;
           gap: 15px;
           padding: 22px;
@@ -447,10 +526,22 @@ export default function Home() {
           background: #0a0a0a;
         }
 
+        .match-card:hover {
+          border-color: #5d0000;
+          background: #0e0e0e;
+        }
+
         .match-time {
           color: #e50914;
           font-size: 13px;
           font-weight: 900;
+          line-height: 1.5;
+        }
+
+        .match-number {
+          color: #fff;
+          font-size: 11px;
+          letter-spacing: 0.08em;
         }
 
         .match-team {
@@ -464,6 +555,24 @@ export default function Home() {
           font-weight: 900;
         }
 
+        .default-label {
+          display: block;
+          color: #e50914;
+          font-size: 10px;
+          margin-top: 5px;
+          letter-spacing: 0.05em;
+        }
+
+        .dq-label {
+          display: block;
+          color: #777;
+          font-size: 10px;
+          margin-top: 5px;
+          text-decoration: line-through;
+        }
+
+        /* TEAMS */
+
         .team-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -474,7 +583,7 @@ export default function Home() {
           border: 1px solid #242424;
           background: #0a0a0a;
           padding: 25px;
-          min-height: 110px;
+          min-height: 115px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -488,9 +597,24 @@ export default function Home() {
           color: #777;
         }
 
+        .group-tag {
+          color: #e50914;
+          font-size: 10px;
+          font-weight: 900;
+          letter-spacing: 0.12em;
+          margin-bottom: 10px;
+        }
+
+        /* ADMIN */
+
         .admin-box {
           border: 1px solid #5d0000;
-          background: linear-gradient(135deg, #160000, #080808);
+          background:
+            linear-gradient(
+              135deg,
+              #160000,
+              #080808
+            );
           padding: 35px;
           display: flex;
           justify-content: space-between;
@@ -508,17 +632,22 @@ export default function Home() {
           color: #999;
         }
 
+        /* FOOTER */
+
         footer {
           border-top: 1px solid #222;
           padding: 40px 24px;
           text-align: center;
           color: #666;
           font-size: 12px;
+          line-height: 1.8;
         }
 
         footer strong {
           color: #e50914;
         }
+
+        /* MOBILE */
 
         @media (max-width: 800px) {
           .nav-inner {
@@ -540,6 +669,14 @@ export default function Home() {
           .stats {
             grid-template-columns: repeat(2, 1fr);
             padding: 30px 0;
+          }
+
+          .stat {
+            padding: 22px 16px;
+          }
+
+          .stat-value {
+            font-size: 21px;
           }
 
           .section {
@@ -575,7 +712,53 @@ export default function Home() {
             margin-top: 20px;
           }
         }
+
+        @media (max-width: 500px) {
+          .brand-text {
+            font-size: 12px;
+          }
+
+          .brand-logo {
+            width: 35px;
+            height: 44px;
+            font-size: 26px;
+          }
+
+          .hero-inner {
+            padding: 70px 20px;
+          }
+
+          .hero h1 {
+            font-size: 58px;
+          }
+
+          .hero h2 {
+            font-size: 18px;
+          }
+
+          .stats {
+            grid-template-columns: 1fr 1fr;
+          }
+
+          .stat-label {
+            font-size: 9px;
+          }
+
+          .stat-value {
+            font-size: 17px;
+          }
+
+          .match-card {
+            padding: 18px 14px;
+          }
+
+          .match-team {
+            font-size: 13px;
+          }
+        }
       `}</style>
+
+      {/* NAVIGATION */}
 
       <header className="navbar">
         <div className="nav-inner">
@@ -599,13 +782,19 @@ export default function Home() {
         </div>
       </header>
 
+      {/* HERO */}
+
       <section id="home" className="hero">
         <div className="hero-inner">
-          <div className="eyebrow">BAKBAKAN SA PINAS</div>
+          <div className="eyebrow">
+            BAKBAKAN SA PINAS
+          </div>
 
           <h1>SEASON 5</h1>
 
-          <h2>THE BATTLE FOR GLORY STARTS HERE.</h2>
+          <h2>
+            THE BATTLE FOR GLORY STARTS HERE.
+          </h2>
 
           <p>
             Philippines Community Esports Tournament
@@ -614,20 +803,31 @@ export default function Home() {
           </p>
 
           <div className="hero-buttons">
-            <a href="#matches" className="button button-red">
+            <a
+              href="#matches"
+              className="button button-red"
+            >
               VIEW MATCHES
             </a>
 
-            <a href="#standings" className="button button-dark">
+            <a
+              href="#standings"
+              className="button button-dark"
+            >
               VIEW STANDINGS
             </a>
           </div>
         </div>
       </section>
 
+      {/* TOURNAMENT STATS */}
+
       <div className="stats">
         <div className="stat">
-          <div className="stat-label">FORMAT</div>
+          <div className="stat-label">
+            FORMAT
+          </div>
+
           <div className="stat-value">
             ROUND ROBIN
             <br />
@@ -636,44 +836,74 @@ export default function Home() {
         </div>
 
         <div className="stat">
-          <div className="stat-label">ACTIVE TEAMS</div>
-          <div className="stat-value">12 TEAMS</div>
+          <div className="stat-label">
+            ACTIVE TEAMS
+          </div>
+
+          <div className="stat-value">
+            12 TEAMS
+          </div>
         </div>
 
         <div className="stat">
-          <div className="stat-label">PLAYOFFS</div>
-          <div className="stat-value">8 TEAMS</div>
+          <div className="stat-label">
+            PLAYOFFS
+          </div>
+
+          <div className="stat-value">
+            8 TEAMS
+          </div>
         </div>
 
         <div className="stat">
-          <div className="stat-label">STATUS</div>
-          <div className="stat-value">ROUND 2</div>
+          <div className="stat-label">
+            STATUS
+          </div>
+
+          <div className="stat-value">
+            ROUND 2
+          </div>
         </div>
       </div>
 
-      <section id="standings" className="section">
+      {/* STANDINGS */}
+
+      <section
+        id="standings"
+        className="section"
+      >
         <div className="section-title">
           <div>
             <h2>STANDINGS</h2>
-            <p>2nd Round Qualifiers</p>
+            <p>
+              2nd Round Qualifiers
+            </p>
           </div>
         </div>
 
         <div className="group-buttons">
           <button
             className={`group-button ${
-              group === "A" ? "active" : ""
+              group === "A"
+                ? "active"
+                : ""
             }`}
-            onClick={() => setGroup("A")}
+            onClick={() =>
+              setGroup("A")
+            }
           >
             GROUP A
           </button>
 
           <button
             className={`group-button ${
-              group === "B" ? "active" : ""
+              group === "B"
+                ? "active"
+                : ""
             }`}
-            onClick={() => setGroup("B")}
+            onClick={() =>
+              setGroup("B")
+            }
           >
             GROUP B
           </button>
@@ -693,109 +923,94 @@ export default function Home() {
             </thead>
 
             <tbody>
-              {standings.map((team, index) => (
-                <tr key={team.name}>
-                  <td className="rank">{index + 1}</td>
+              {standings.map(
+                (team, index) => (
+                  <tr key={team.name}>
+                    <td className="rank">
+                      {index + 1}
+                    </td>
 
-                  <td className="team-name">
-                    {team.name}
-                  </td>
+                    <td className="team-name">
+                      {team.name}
+                    </td>
 
-                  <td>{team.w}</td>
+                    <td>
+                      {team.w}
+                    </td>
 
-                  <td>{team.l}</td>
+                    <td>
+                      {team.l}
+                    </td>
 
-                  <td
-                    className={
-                      team.rd >= 0 ? "positive" : "negative"
-                    }
-                  >
-                    {formatRD(team.rd)}
-                  </td>
+                    <td
+                      className={
+                        team.rd >= 0
+                          ? "positive"
+                          : "negative"
+                      }
+                    >
+                      {formatRD(
+                        team.rd
+                      )}
+                    </td>
 
-                  <td>{team.pts}</td>
-                </tr>
-              ))}
+                    <td>
+                      {team.pts}
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
         </div>
       </section>
 
-      <section id="matches" className="section">
+      {/* MATCH SCHEDULE */}
+
+      <section
+        id="matches"
+        className="section"
+      >
         <div className="section-title">
           <div>
-            <h2>MATCHES</h2>
-            <p>Round 2 Qualifiers — Upcoming Schedule</p>
+            <h2>MATCH SCHEDULE</h2>
+            <p>
+              Round 2 Qualifiers
+            </p>
           </div>
+        </div>
+
+        <div className="day-banner">
+          <small>
+            BAKBAKAN SA PINAS S5
+          </small>
+
+          <h3>
+            DAY 5 — NOVEMBER 3, 2026
+          </h3>
         </div>
 
         <div className="match-grid">
-          {matches.map((match, index) => (
-            <div className="match-card" key={index}>
-              <div className="match-time">
-                {match.time}
-              </div>
+          {matches.map(
+            (match) => (
+              <div
+                className="match-card"
+                key={match.match}
+              >
+                <div className="match-time">
+                  <span className="match-number">
+                    {match.match}
+                  </span>
 
-              <div className="match-team">
-                {match.team1}
-              </div>
+                  <br />
 
-              <div className="versus">VS</div>
+                  {match.time}
+                </div>
 
-              <div className="match-team">
-                {match.team2}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+                <div className="match-team">
+                  {match.team1}
 
-      <section id="teams" className="section">
-        <div className="section-title">
-          <div>
-            <h2>TEAMS</h2>
-            <p>12 active teams in the 2nd Round</p>
-          </div>
-        </div>
-
-        <div className="team-grid">
-          {allTeams.map((team) => (
-            <div className="team-card" key={team.name}>
-              <strong>{team.name}</strong>
-
-              <small>
-                {team.w}W · {team.l}L ·{" "}
-                {formatRD(team.rd)} RD
-              </small>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="admin-box">
-          <div>
-            <h3>TOURNAMENT ADMINISTRATION</h3>
-
-            <p>
-              Manage match results, standings and tournament
-              information.
-            </p>
-          </div>
-
-          <a href="/admin" className="button button-red">
-            OPEN ADMIN PANEL
-          </a>
-        </div>
-      </section>
-
-      <footer>
-        <strong>BAKBAKAN SA PINAS S5</strong>
-        <br />
-        Philippines Community Esports Tournament
-        <br />
-        © 2026 Bakbakan Sa Pinas
-      </footer>
-    </main>
-  );
-}
+                  {match.status ===
+                    "DEFAULT" && (
+                    <span className="default-label">
+    
